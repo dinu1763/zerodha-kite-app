@@ -155,6 +155,12 @@ function DashboardContent() {
               <div className="p-5">
                 <h3 className="text-lg font-medium text-gray-900 mb-4">Quick Actions</h3>
                 <div className="space-y-2">
+                  <button
+                    onClick={() => window.location.href = '/trading'}
+                    className="w-full text-left px-3 py-2 text-sm text-orange-600 hover:bg-orange-50 rounded font-medium border border-orange-200"
+                  >
+                    🤖 Algorithmic Trading Dashboard
+                  </button>
                   <button className="w-full text-left px-3 py-2 text-sm text-blue-600 hover:bg-blue-50 rounded">
                     View Portfolio
                   </button>
