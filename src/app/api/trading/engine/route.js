@@ -9,11 +9,11 @@ async function getKiteInstance(request) {
   // Get access token from session/database
   // This is a simplified version - implement proper token management
   const accessToken = request.headers.get('authorization')?.replace('Bearer ', '');
-  
+
   if (!accessToken) {
     throw new Error('No access token provided');
   }
-  
+
   // Initialize KiteConnect with access token
   // Note: You'll need to install and import the actual KiteConnect library
   // const KiteConnect = require('kiteconnect').KiteConnect;
@@ -21,15 +21,48 @@ async function getKiteInstance(request) {
   //   api_key: process.env.NEXT_PUBLIC_ZERODHA_API_KEY
   // });
   // kite.setAccessToken(accessToken);
-  
-  // For now, return a mock object
+
+  // For now, return a mock object with sample instruments
   return {
     getProfile: async () => ({ user_id: 'test_user' }),
     getMargins: async () => ({ equity: { available: { live_balance: 100000 } } }),
-    getInstruments: async () => [],
-    getQuote: async () => ({}),
+    getInstruments: async () => [
+      {
+        instrument_token: 256265,
+        exchange_token: 1001,
+        tradingsymbol: 'NIFTY 50',
+        name: 'NIFTY 50',
+        last_price: 19500,
+        expiry: '',
+        strike: 0,
+        tick_size: 0.05,
+        lot_size: 50,
+        instrument_type: 'EQ',
+        segment: 'NSE',
+        exchange: 'NSE'
+      }
+    ],
+    getQuote: async (tokens) => {
+      const quotes = {};
+      tokens.forEach(token => {
+        quotes[token] = {
+          instrument_token: token,
+          last_price: 19500 + Math.random() * 100 - 50,
+          ohlc: {
+            open: 19450,
+            high: 19550,
+            low: 19400,
+            close: 19500
+          },
+          volume: 1000000
+        };
+      });
+      return quotes;
+    },
     getHistoricalData: async () => [],
-    placeOrder: async () => ({ order_id: 'test_order' }),
+    placeOrder: async (variety, params) => ({
+      order_id: `DEMO_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+    }),
     getOrders: async () => [],
     getPositions: async () => ({ net: [] }),
     getHoldings: async () => []
