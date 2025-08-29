@@ -15,9 +15,21 @@ export async function POST(request) {
     const apiKey = process.env.NEXT_PUBLIC_ZERODHA_API_KEY;
     const apiSecret = process.env.ZERODHA_API_SECRET;
 
+    console.log('Environment check:', {
+      apiKey: apiKey ? 'Set' : 'Not set',
+      apiSecret: apiSecret ? 'Set' : 'Not set',
+      allEnvKeys: Object.keys(process.env).filter(key => key.includes('ZERODHA'))
+    });
+
     if (!apiKey || !apiSecret) {
       return NextResponse.json(
-        { error: 'API credentials not configured' },
+        {
+          error: 'API credentials not configured',
+          debug: {
+            apiKey: apiKey ? 'Set' : 'Not set',
+            apiSecret: apiSecret ? 'Set' : 'Not set'
+          }
+        },
         { status: 500 }
       );
     }
