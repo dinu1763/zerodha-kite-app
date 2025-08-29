@@ -12,7 +12,7 @@ export async function POST(request) {
       );
     }
 
-    const apiKey = process.env.ZERODHA_API_KEY;
+    const apiKey = process.env.NEXT_PUBLIC_ZERODHA_API_KEY;
     const apiSecret = process.env.ZERODHA_API_SECRET;
 
     if (!apiKey || !apiSecret) {
